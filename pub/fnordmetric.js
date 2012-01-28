@@ -56,11 +56,28 @@ var FnordMetric = (function(){
     }
   }
 
+  function abbrTag(short, long)
+  {
+    return "<abbr title='"+long+"'>"+short+"</abbr>";
+  }
+
   function formatValue(value){
+    var suffixes = [
+      abbrTag('k', 'thousand'),
+      abbrTag('m', 'million'),
+      abbrTag('b', 'billion'),
+      abbrTag('t', 'trillion'),
+      abbrTag('q', 'HOLY QUADRILLION, BATMAN!')
+    ];
     if(value < 10){
       return value.toFixed(2);
-    } else if(value > 1000){
-      return (value/1000.0).toFixed(1) + "k";
+    } else if(value >= 1000){
+      var suffix = -1;
+      while((value >= 1000) && (suffix < suffixes.length-1)){
+        value /= 1000.0;
+        suffix++;
+      }
+      return (value).toFixed(1) + suffixes[suffix];
     } else {
       return value.toFixed(0);
     }
