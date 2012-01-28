@@ -62,13 +62,8 @@ var FnordMetric = (function(){
   }
 
   function formatValue(value){
-    var suffixes = [
-      abbrTag('k', 'thousand'),
-      abbrTag('m', 'million'),
-      abbrTag('b', 'billion'),
-      abbrTag('t', 'trillion'),
-      abbrTag('q', 'HOLY QUADRILLION, BATMAN!')
-    ];
+    var suffixes = ['k','m','b','t','q'];
+    var raw_value = value;
     if(value < 10){
       return value.toFixed(2);
     } else if(value >= 1000){
@@ -77,9 +72,9 @@ var FnordMetric = (function(){
         value /= 1000.0;
         suffix++;
       }
-      return (value).toFixed(1) + suffixes[suffix];
+      return abbrTag((value).toFixed(1) + suffixes[suffix], raw_value);
     } else {
-      return value.toFixed(0);
+      return abbrTag(value.toFixed(0), raw_value);
     }
   }
 
